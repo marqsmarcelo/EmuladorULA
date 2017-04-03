@@ -33,6 +33,9 @@ namespace Emulador_ULA
         // imprimir resultados?
         public static bool imprimir = false;
 
+        // registrador de flags
+        public static Array registradorFlags = new Array[16];
+
         static void Main(string[] args)
         {
             int opcao;
@@ -65,6 +68,50 @@ namespace Emulador_ULA
                         Console.WriteLine("O valor do registrador B é: " + registradorB);
                         break;
                     case 5:
+                        /*
+                            Carry Flag  CF  Indicador de "vai-um"
+                            Parity Flag PF  Indicador de número PAR de 1's no byte inferior
+                            Auxiliary Carry AF  Indicador de "vai-um" para operações em BCD
+                            Zero Flag   ZF  Indicador de "zero" na última operação
+                            Sign Flag   SF  Indicador de resultado negativo
+                            Overflow Flag   OF  Indicador de erro de transbordamento
+
+                            -----------------------------------------------------------------
+                            Símbolo quando 1                    |   Símbolo quando 0
+                            -----------------   Flag de Estado   ----------------------------
+                            CF  |   CY (carry)                  |   NC (no carry)
+                            PF  |   PE (parity even - PAR)      |   PO (parity odd - IMPAR)
+                            AF  |   AC (auxiliary carry)        |   NA (no aux. carry)
+                            ZF  |   ZR (zero)                   |   NZ (no zero)
+                            SF  |   NG (negativo)               |   PL (plus - positivo)
+                            OF  |   OV (overflow)               |   NV (no overflow)
+                            -----------------   Flag de Controle    -------------------------
+                            DF  |   DN (down - para baixo)      |   UP (up - para cima)
+                            IF  |   EI (permite interrupção)    |   DI (desabilita interup.)
+                            -----------------------------------------------------------------
+                        */
+                        /*
+                        registradorFlags.SetValue("CF", 0);
+                        registradorFlags.SetValue("", 1);
+                        registradorFlags.SetValue("PF", 2);
+                        registradorFlags.SetValue("", 3);
+                        registradorFlags.SetValue("AF", 4);
+                        registradorFlags.SetValue("", 5);
+                        registradorFlags.SetValue("ZF", 6);
+                        registradorFlags.SetValue("SF", 7);
+                        registradorFlags.SetValue("TF", 8);
+                        registradorFlags.SetValue("IF", 9);
+                        registradorFlags.SetValue("DF", 10);
+                        registradorFlags.SetValue("OF", 11);
+                        registradorFlags.SetValue("", 12);
+                        registradorFlags.SetValue("", 13);
+                        registradorFlags.SetValue("", 14);
+                        registradorFlags.SetValue("", 15);
+                        */
+                        foreach (var flag in registradorFlags)
+                        {
+                            Console.WriteLine(flag.ToString());
+                        }
                         break;
                     case 7:
                         switch (operacao)
