@@ -30,6 +30,9 @@ namespace Emulador_ULA
         // Largura da tabela para impressão dos resultados
         const int tableWidth = 77;
 
+        // imprimir resultados?
+        public static bool imprimir = false;
+
         static void Main(string[] args)
         {
             int opcao;
@@ -109,14 +112,17 @@ namespace Emulador_ULA
 
         static int Somar (int SomandoA, int SomandoB)
         {
-            Console.WriteLine("\nSomando registradores A e B\n");
-
-            ImprimirRegistradores(SomandoA, SomandoB);
-
-            Console.WriteLine();
-            PrintLine();
-            PrintRow("", "Carregar", "Somando A", "Somando B");
-            PrintLine();
+            if (imprimir)
+                Console.WriteLine("\nSomando registradores A e B\n");
+            if (imprimir)
+                ImprimirRegistradores(SomandoA, SomandoB);
+            if (imprimir)
+            {
+                Console.WriteLine();
+                PrintLine();
+                PrintRow("", "Carregar", "Somando A", "Somando B");
+                PrintLine();
+            }
 
             int Carregar;
             // Enquanto houverem bits para somar no Registrador B
@@ -136,20 +142,29 @@ namespace Emulador_ULA
                 // Se encarrega de andar o bit do Carregar um bit a frente, armazenando o valor no Somando B
                 SomandoB = Carregar << 1;
 
-                PrintRow("Decimal", Carregar.ToString(), SomandoA.ToString(), SomandoB.ToString());
-                PrintRow("Binário", DecToBin(Carregar).ToString(), DecToBin(SomandoA).ToString(), DecToBin(SomandoB).ToString());
-                PrintLine();
+                if (imprimir)
+                {
+                    PrintRow("Decimal", Carregar.ToString(), SomandoA.ToString(), SomandoB.ToString());
+                    PrintRow("Binário", DecToBin(Carregar).ToString(), DecToBin(SomandoA).ToString(), DecToBin(SomandoB).ToString());
+                    PrintLine();
+                }
             }
 
-            Console.WriteLine("\nRESULTADO DA SOMA: " + SomandoA + "\n");
+            if (imprimir)
+                Console.WriteLine("\nRESULTADO DA SOMA: " + SomandoA + "\n");
+
+            registradorA = SomandoA;
+
             return SomandoA;
         }
 
         static int Subtrair(int Subtraendo, int Minuendo)
         {
-            Console.WriteLine("\nSubtraindo registrador B do registrador A\n");
+            if (imprimir)
+                Console.WriteLine("\nSubtraindo registrador B do registrador A\n");
 
-            ImprimirRegistradores(Subtraendo, Minuendo);
+            if (imprimir)
+                ImprimirRegistradores(Subtraendo, Minuendo);
 
             // Executa operação lógica NÂO sobre o Minuendo e o soma com 1 para dar seu valor negativo
             Minuendo = Somar(~Minuendo, 1);
@@ -157,7 +172,11 @@ namespace Emulador_ULA
             // Como a subtração é uma extensão da adição, somamos o Subtraendo com o valor negativo do Minuendo
             int resultado = Somar(Subtraendo, Minuendo);
 
-            Console.WriteLine("\nRESULTADO DA SUBTRAÇÃO: " + resultado + "\n");
+            if (imprimir)
+                Console.WriteLine("\nRESULTADO DA SUBTRAÇÃO: " + resultado + "\n");
+
+            registradorA = resultado;
+
             return resultado;
         }
 
@@ -173,8 +192,11 @@ namespace Emulador_ULA
            10011010   (this is 154 in decimal)*/
         static int Multiplicar(int Multiplicando, int Multiplicador)
         {
-            Console.WriteLine("\nMultiplicando registradores A e B\n");
-            ImprimirRegistradores(Multiplicando, Multiplicador);
+            if (imprimir)
+                Console.WriteLine("\nMultiplicando registradores A e B\n");
+
+            if (imprimir)
+                ImprimirRegistradores(Multiplicando, Multiplicador);
 
             int resultado = 0;
 
@@ -194,15 +216,23 @@ namespace Emulador_ULA
                 Multiplicador >>= 1;
                 Multiplicando <<= 1;
 
-                Console.WriteLine();
-                PrintLine();
-                PrintRow("", "Multiplicando", "Multiplicador", "Resultado");
-                PrintLine();
-                PrintRow("Decimal", Multiplicando.ToString(), Multiplicador.ToString(), resultado.ToString());
-                PrintRow("Binário", DecToBin(Multiplicando).ToString(), DecToBin(Multiplicador).ToString(), DecToBin(resultado).ToString());
-                PrintLine();
+                if (imprimir)
+                {
+                    Console.WriteLine();
+                    PrintLine();
+                    PrintRow("", "Multiplicando", "Multiplicador", "Resultado");
+                    PrintLine();
+                    PrintRow("Decimal", Multiplicando.ToString(), Multiplicador.ToString(), resultado.ToString());
+                    PrintRow("Binário", DecToBin(Multiplicando).ToString(), DecToBin(Multiplicador).ToString(), DecToBin(resultado).ToString());
+                    PrintLine();
+                }
             }
-            Console.WriteLine("\nRESULTADO DA MULTIPLICAÇÃO: " + resultado + "\n");
+
+            if (imprimir)
+                Console.WriteLine("\nRESULTADO DA MULTIPLICAÇÃO: " + resultado + "\n");
+
+            registradorA = resultado;
+
             return resultado;   
         }
 
@@ -225,8 +255,14 @@ namespace Emulador_ULA
                 }
                 Resto >>= 1;
             }
-            Console.WriteLine("\nRESULTADO DA DIVISÃO: " + Quociente + "\n");
-            Console.WriteLine("\nRESTO DA DIVISÃO: " + Resto + "\n");
+
+            if (imprimir)
+                Console.WriteLine("\nRESULTADO DA DIVISÃO: " + Quociente + "\n");
+            if (imprimir)
+                Console.WriteLine("\nRESTO DA DIVISÃO: " + Resto + "\n");
+
+            registradorA = Quociente;
+
             return Quociente;
             /*1º – Você deve inicializar o quociente em ZERO
             2º – Subtraia o divisor do dividendo para obter o resultado parcial(RP)
