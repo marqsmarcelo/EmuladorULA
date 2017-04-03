@@ -49,12 +49,14 @@ namespace Emulador_ULA
                     case 1:
                         Console.Write("Novo valor para registrador A: ");
                         int.TryParse(Console.ReadLine(), out registradorA);
-                        Console.WriteLine("Valor de A definido para: " + registradorA);
+                        if (imprimir)
+                            Console.WriteLine("Valor de A definido para: " + registradorA);
                         break;
                     case 2:
                         Console.Write("Novo valor para registrador B: ");
                         int.TryParse(Console.ReadLine(), out registradorB);
-                        Console.WriteLine("Valor de B definido para: " + registradorB);
+                        if (imprimir)
+                            Console.WriteLine("Valor de B definido para: " + registradorB);
                         break;
                     case 3:
                         Console.WriteLine("O valor do registrador A é: " + registradorA);
